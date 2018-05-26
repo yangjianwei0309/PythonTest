@@ -1,0 +1,32 @@
+#  This is a spide codes of www.cnblogs.com 
+# I use python by build-in lib urllib to get it 
+import urllib.parse
+import urllib.request
+
+# get html information
+def getHtml(url,values):
+    user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36'
+    headers = {"User-Agent" : user_agent}
+    data = urllib.parse.urlencode(values)
+    response_result = urllib.request.urlopen(url+'?'+data)
+    html = response_result.read().decode("utf-8")
+    return html
+
+# get data
+def requestCnblogs(index):
+    print("请求数据")
+    url = 'http://www.cnblogs.com/mvc/AggSite/PostList.aspx'
+    value = {
+        'CategoryId': 808,
+        'CategoryType': 'SiteHome',
+        'ItemListActionName': 'PostList',
+        'PageIndex': index,
+        'ParentCategoryId': 0,
+        'TotalPostCount': 4000
+    }
+    result = getHtml(url,value)
+    return result
+
+if __name__ == "__main__":
+    data = requestCnblogs(3)
+    print(data)
